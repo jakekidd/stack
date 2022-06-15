@@ -13,15 +13,13 @@ struct Stack1024 {
  * However, the EVM does not support dynamically-sized arrays in memory, so this stack is implemented with a
  * fixed-size array based on the maximum.
  * 
- * @dev To change the maximum size of the stack:
- * - Change the static size under Stack1024.
- * - Change the require statement under `push` to match the new maximum to prevent stack overflow.
+ * @dev To change the maximum size of the stack, simply change the static size under Stack1024.
  *
  * It's also worth optimizing by changing the item size (uint256 may be excessively large for your use-case).
  */
 library Stack {
     function push(Stack1024 memory self, uint256 x) internal pure {
-        require(self.length < 1024, "Stack overflow");
+        require(self.length < self.items.length, "Stack overflow");
         self.items[self.length] = x;
         unchecked {
             self.length++;
